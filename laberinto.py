@@ -7,7 +7,7 @@ POS_X = 0
 POS_Y = 1
 map_width = 20
 map_height = 15
-
+#hola
 my_position = [3, 1]
 
 while True:
