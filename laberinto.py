@@ -1,4 +1,4 @@
-#constantes
+# constantes
 import os
 import random
 
@@ -8,7 +8,7 @@ POS_X = 0
 POS_Y = 1
 map_width = 20
 map_height = 15
-num_of_map_objects = 11
+num_of_map_objects = 15
 
 # x = width
 # y = height
@@ -18,17 +18,22 @@ tail_lenght = 0
 tail = []
 map_objects = []
 
+end_game = False
+died = False
 
-# Generate random objects on the map
-while len(map_objects) < num_of_map_objects:
-    new_position = [random.randint(0, map_width), random.randint(0, map_height)]
-
-    if new_position not in map_objects and new_position != my_position:
-        map_objects.append(new_position)
 
 
 # Main Loop
-while True:
+while not end_game:
+    # Generate random objects on the map
+
+    while len(map_objects) < num_of_map_objects:
+        new_position = [random.randint(0, map_width), random.randint(0, map_height)]
+
+        if new_position not in map_objects and new_position != my_position:
+            map_objects.append(new_position)
+
+
     # Draw map
     print("+" + "-" * map_width * 3 + "+")
 
@@ -39,6 +44,7 @@ while True:
 
             char_to_draw = " "
             object_in_cell = None
+            tai_in_cell = None
 
             for map_object in map_objects:
                 if map_object[POS_X] == coordinate_x and map_object[POS_Y] == coordinate_y:
@@ -47,7 +53,8 @@ while True:
 
             for tail_piece in tail:
                 if tail_piece[POS_X] == coordinate_x and tail_piece[POS_Y] == coordinate_y:
-                    char_to_draw = "@"
+                    char_to_draw = "#"
+                    tai_in_cell = tail_piece
 
             if my_position[POS_X] == coordinate_x and my_position[POS_Y] == coordinate_y:
                 char_to_draw = "@"
@@ -56,14 +63,20 @@ while True:
                     map_objects.remove(object_in_cell)
                     tail_lenght += 1
 
+                if tai_in_cell:
+                    end_game = True
+                    died = True
+
+
 
             print(" {} ".format(char_to_draw), end="")
         print("|")
 
     print("+" + "-" * map_width * 3 + "+")
     print("la cola {}".format(tail_lenght))
+
     # Ask user where he wants to move
-    #direction = input("Donde te quieres mover? [WASD]: ")
+    # direction = input("Donde te quieres mover? [WASD]: ")
     direction = readchar.readchar().decode()
 
     if direction == "w":
@@ -71,24 +84,29 @@ while True:
         tail = tail[:tail_lenght]
         my_position[POS_Y] -= 1
         my_position[POS_Y] %= map_height
+
     elif direction == "s":
         tail.insert(0, my_position.copy())
         tail = tail[:tail_lenght]
         my_position[POS_Y] += 1
         my_position[POS_Y] %= map_height
+
     elif direction == "a":
         tail.insert(0, my_position.copy())
         tail = tail[:tail_lenght]
         my_position[POS_X] -= 1
         my_position[POS_X] %= map_width
+
     elif direction == "d":
         tail.insert(0, my_position.copy())
         tail = tail[:tail_lenght]
         my_position[POS_X] += 1
         my_position[POS_X] %= map_width
+
     elif direction == "q":
-        break
+        end_game = True
 
     os.system("cls")
 
-
+if died:
+    print("Has muertooo!")
