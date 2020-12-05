@@ -6,9 +6,26 @@ import readchar
 
 POS_X = 0
 POS_Y = 1
-map_width = 20
-map_height = 15
-num_of_map_objects = 15
+
+num_of_map_objects = 11
+
+obstacle_definition = """\
+##########################
+                      ####
+##################    ####
+##################    ####
+###########
+##################  ######
+#########               ##
+############       #######
+################# 
+#####################   ##
+#####     #######        ##
+#######
+########     #####     ####
+###########         #######
+###########################\
+"""
 
 # x = width
 # y = height
@@ -21,8 +38,17 @@ map_objects = []
 end_game = False
 died = False
 
+# Create obstacle map
+
+obstacle_definition = [list(row) for row in obstacle_definition.split("\n")]
+map_width = len(obstacle_definition[0])
+map_height = len(obstacle_definition)
+
+
 # Main Loop
 while not end_game:
+
+    os.system("cls")
     # Generate random objects on the map
 
     while len(map_objects) < num_of_map_objects:
@@ -50,7 +76,7 @@ while not end_game:
 
             for tail_piece in tail:
                 if tail_piece[POS_X] == coordinate_x and tail_piece[POS_Y] == coordinate_y:
-                    char_to_draw = "#"
+                    char_to_draw = "@"
                     tai_in_cell = tail_piece
 
             if my_position[POS_X] == coordinate_x and my_position[POS_Y] == coordinate_y:
@@ -64,11 +90,13 @@ while not end_game:
                     end_game = True
                     died = True
 
+            if obstacle_definition[coordinate_y][coordinate_x] == "#":
+                char_to_draw = "#"
             print(" {} ".format(char_to_draw), end="")
         print("|")
 
     print("+" + "-" * map_width * 3 + "+")
-    print("la cola {}".format(tail_lenght))
+
 
     # Ask user where he wants to move
     # direction = input("Donde te quieres mover? [WASD]: ")
