@@ -11,9 +11,9 @@ num_of_map_objects = 4
 
 obstacle_definition = """\
 #############################
-                      #######
-##################    #######
-####    ##########    #######
+                        #####
+##################       ####
+####    ##########          #
 #######                  ####
 #####     ######    #########
 #########               #####
@@ -29,7 +29,7 @@ obstacle_definition = """\
 # y = height
 
 my_position = [0, 1]
-tail = []
+
 map_objects = []
 
 end_game = False
@@ -49,9 +49,10 @@ while not end_game:
     # Generate random objects on the map
 
     while len(map_objects) < num_of_map_objects:
-        new_position = [random.randint(0, map_width), random.randint(0, map_height)]
+        new_position = [random.randint(0, map_width - 1), random.randint(0, map_height - 1)]
 
-        if new_position not in map_objects and new_position != my_position:
+        if new_position not in map_objects and new_position != my_position and \
+                obstacle_definition[new_position[POS_Y]][new_position[POS_X]] != "#":
             map_objects.append(new_position)
 
     # Draw map
@@ -64,7 +65,6 @@ while not end_game:
 
             char_to_draw = "  "
             object_in_cell = None
-            tai_in_cell = None
 
             for map_object in map_objects:
                 if map_object[POS_X] == coordinate_x and map_object[POS_Y] == coordinate_y:
@@ -73,10 +73,6 @@ while not end_game:
 
             if my_position[POS_X] == coordinate_x and my_position[POS_Y] == coordinate_y:
                 char_to_draw = " @"
-
-                if tai_in_cell:
-                    end_game = True
-                    died = True
 
             if obstacle_definition[coordinate_y][coordinate_x] == "#":
                 char_to_draw = "##"
