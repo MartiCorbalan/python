@@ -90,8 +90,9 @@ while not end_game:
                     end_game = True
                     died = True
 
-            if obstacle_definition[coordinate_y][coordinate_x] == "#":
-                char_to_draw = "#"
+            #if obstacle_definition[coordinate_y][coordinate_x] == "#":
+                #char_to_draw = "#"
+
             print(" {} ".format(char_to_draw), end="")
         print("|")
 
