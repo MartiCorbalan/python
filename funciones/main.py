@@ -1,11 +1,7 @@
+def saludo_secreto(nombre):
+    print("Hola {}".format(nombre[::-1]))
 
-def saludo_secreto():
-    print("Hola mundo")
 
-    a = input("Como estas?")
-    b = input("Dos mas dos?")
-
-    if b == "2":
-        print("tu si que sabes...")
-
-saludo_secreto()
+saludo_secreto("Corba")
+saludo_secreto("Hypno")
+saludo_secreto("David")
